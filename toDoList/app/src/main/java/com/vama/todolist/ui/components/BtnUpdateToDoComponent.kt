@@ -18,7 +18,7 @@ fun BtnUpdateToDoComponent(context:Context,index:Int){
     Column(modifier = Modifier.fillMaxWidth()) {
         Button(onClick = {
             val intent = Intent(context, UpdateActivity::class.java)
-            intent.putExtra("indexItem", index)
+            intent.putExtra("index", index)
             context.startActivity(intent)
             (context as Activity)
         }) {

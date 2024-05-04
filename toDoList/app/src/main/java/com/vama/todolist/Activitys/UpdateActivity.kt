@@ -9,7 +9,7 @@ class UpdateActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            UpdateScreen()
+            UpdateScreen(intent.getIntExtra("index",0))
         }
     }
 }

@@ -4,11 +4,23 @@ class ToDoClass(
     private var topic: String,
     private var toDo: String
 ) {
-    fun GetTopic():String{
+    // Getter para `topic`
+    fun getTopic(): String {
         return topic
     }
 
-    fun GetToDo():String{
+    // Setter para `topic`
+    fun setTopic(newTopic: String) {
+        topic = newTopic
+    }
+
+    // Getter para `toDo`
+    fun getToDo(): String {
         return toDo
+    }
+
+    // Setter para `toDo`
+    fun setToDo(newToDo: String) {
+        toDo = newToDo
     }
 }

@@ -9,14 +9,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.vama.todolist.ui.components.UpdateToDoComponent
 
 @Composable
-fun UpdateScreen(){
+fun UpdateScreen(index: Int){
     Column {
-        UpdateToDoComponent(modifier = Modifier.fillMaxWidth(), LocalContext.current)
+        UpdateToDoComponent(modifier = Modifier.fillMaxWidth(), LocalContext.current, index)
     }
 }
 
 @Preview
 @Composable
 private fun UpdateScreenPreview(){
-    UpdateScreen()
+    UpdateScreen(0)
 }

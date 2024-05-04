@@ -1,7 +1,10 @@
 package com.vama.todolist.ui.components
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,6 +33,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.vama.todolist.Activitys.UpdateActivity
 import com.vama.todolist.Model.ToDoClass
 import com.vama.todolist.viewModel.ViewModelToDo
 import kotlinx.coroutines.Dispatchers
@@ -148,6 +152,11 @@ fun SetDataComponent(modifier: Modifier, context: Context) {
                     Column(
                         modifier = Modifier
                             .padding(top = 5.dp, start = 10.dp, end = 10.dp, bottom = 5.dp)
+                            .clickable {
+                                val intent = Intent(context, UpdateActivity::class.java)
+                                intent.putExtra("index", index)
+                                context.startActivity(intent)
+                                (context as Activity) }
                             .background(
                                 color = Color(0xFF97CAF7),
                                 shape = RoundedCornerShape(6.dp)
@@ -157,11 +166,10 @@ fun SetDataComponent(modifier: Modifier, context: Context) {
                     ) {
                         Text(
                             modifier = Modifier.padding(10.dp),
-                            text = index.toString() + ". " + item.GetTopic()
+                            text = index.toString() + ". " + item.getTopic()
                         )
-                        Text(modifier = Modifier.padding(10.dp), text = item.GetToDo())
+                        Text(modifier = Modifier.padding(10.dp), text = item.getToDo())
 
-                        BtnUpdateToDoComponent(context, index)
                     }
                 }
             }

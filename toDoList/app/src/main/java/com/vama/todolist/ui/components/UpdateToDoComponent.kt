@@ -26,18 +26,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.vama.todolist.Data.toDo_List
 import com.vama.todolist.MainActivity
 import com.vama.todolist.Model.ToDoClass
 import com.vama.todolist.viewModel.ViewModelToDo
 
 @Composable
-fun UpdateToDoComponent(modifier: Modifier, context: Context) {
+fun UpdateToDoComponent(modifier: Modifier, context: Context, index:Int) {
 
-    var index: Int = 0
     val toDoData: MutableState<MutableList<ToDoClass>> =
         remember { mutableStateOf(mutableListOf()) }
 
     val viewModel = ViewModelToDo()
+    val myObject = remember {
+        toDo_List.value[index]
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -45,7 +49,7 @@ fun UpdateToDoComponent(modifier: Modifier, context: Context) {
             .padding(top = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val textFieldTitulo: MutableState<String> = remember { mutableStateOf("") }
+        val textFieldTitulo: MutableState<String> = remember { mutableStateOf(myObject.getTopic()) }
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -79,7 +83,7 @@ fun UpdateToDoComponent(modifier: Modifier, context: Context) {
             readOnly = false
         )
 
-        val textFieldTarea: MutableState<String> = remember { mutableStateOf("") }
+        val textFieldTarea: MutableState<String> = remember { mutableStateOf(myObject.getToDo()) }
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -114,8 +118,9 @@ fun UpdateToDoComponent(modifier: Modifier, context: Context) {
         )
         Button(modifier = Modifier.padding(bottom = 5.dp), onClick = {
             if (textFieldTitulo.value.isNotBlank() && textFieldTarea.value.isNotBlank()) {
-                val updatedItem = ToDoClass(textFieldTitulo.value, textFieldTarea.value)
-                viewModel.updateData(index, updatedItem)
+                myObject.setTopic(textFieldTitulo.value)
+                myObject.setToDo(textFieldTarea.value)
+                //viewModel.updateData(index, updatedItem)
                 val intent = Intent(context, MainActivity::class.java)
                 context.startActivity(intent)
                 (context as Activity)
@@ -129,5 +134,5 @@ fun UpdateToDoComponent(modifier: Modifier, context: Context) {
 @Preview
 @Composable
 private fun ToDoComponent() {
-    UpdateToDoComponent(modifier = Modifier, LocalContext.current)
+    UpdateToDoComponent(modifier = Modifier, LocalContext.current, 0)
 }
