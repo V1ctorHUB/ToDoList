@@ -1,21 +1,16 @@
 package com.vama.todolist.ui.components
 
 import android.content.Context
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -31,7 +26,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vama.todolist.Data.toDoList
 import com.vama.todolist.Model.ToDoClass
 import com.vama.todolist.viewModel.ViewModelToDo
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +35,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun UpdateToDoComponent(modifier: Modifier, context:Context, index:  Int){
 
+    val toDoData: MutableState<MutableList<ToDoClass>> = remember { mutableStateOf(mutableListOf()) }
+    val viewModel = ViewModelToDo()
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -48,8 +44,6 @@ fun UpdateToDoComponent(modifier: Modifier, context:Context, index:  Int){
             .padding(top = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val ToDoList: MutableState<MutableList<ToDoClass>> = remember { mutableStateOf(mutableListOf()) }
-        val viewmodel = ViewModelToDo()
         val textFieldTitulo: MutableState<String> = remember { mutableStateOf("") }
         TextField(
             modifier = Modifier
@@ -206,23 +200,22 @@ fun UpdateToDoComponent(modifier: Modifier, context:Context, index:  Int){
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             readOnly = false
         )
-        val toDoData: MutableState<MutableList<ToDoClass>> = remember { mutableStateOf(mutableListOf()) }
-        val viewModel = ViewModelToDo()
         Button(modifier = Modifier.padding(bottom = 5.dp), onClick = {
-            if (textFieldTitulo.value != "" && textFieldTarea.value != ""){
-                val myToDoList = ToDoClass(textFieldTitulo.value, textFieldTarea.value)
-
-                viewModel.setData(myToDoList)
+            if (textFieldTitulo.value.isNotBlank() && textFieldTarea.value.isNotBlank()){
+                val updatedItem = ToDoClass(textFieldTitulo.value, textFieldTarea.value)
+                viewModel.updateData(index, updatedItem)
                 textFieldTitulo.value = ""
                 textFieldTarea.value = ""
-
-                GlobalScope.launch(Dispatchers.IO) {
-                    toDoData.value = viewModel.getData()
-                    Thread.sleep(2000)
-                }
             }
         }) {
             Text(text = "Modificar tareas de la lista")
         }
     }
+}
+
+
+@Preview
+@Composable
+private fun ToDoComponent(){
+    UpdateToDoComponent(modifier = Modifier, LocalContext.current,2)
 }

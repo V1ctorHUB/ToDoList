@@ -31,7 +31,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vama.todolist.Data.toDoList
 import com.vama.todolist.Model.ToDoClass
 import com.vama.todolist.viewModel.ViewModelToDo
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +38,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @Composable
-fun SetDataComponent(modifier: Modifier, context:Context){
+fun SetDataComponent(modifier: Modifier, context: Context) {
 
     val loadingState: MutableState<Boolean> = remember { mutableStateOf(false) }
     Column(
@@ -61,50 +60,6 @@ fun SetDataComponent(modifier: Modifier, context:Context){
             maxLines = 1,
             minLines = 1,
             singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
-                disabledTextColor = Color.Black,
-                errorTextColor = Color.Black,
-                focusedContainerColor = Color.Black,
-                unfocusedContainerColor = Color.White,
-                disabledContainerColor = Color.Black,
-                errorContainerColor = Color.Red,
-                cursorColor = Color.Black,
-                errorCursorColor = Color.Black,
-                focusedIndicatorColor = Color.Black,
-                unfocusedIndicatorColor = Color.Black,
-                disabledIndicatorColor = Color.Black,
-                errorIndicatorColor = Color.Black,
-                focusedLeadingIconColor = Color.Black,
-                unfocusedLeadingIconColor = Color.Black,
-                disabledLeadingIconColor = Color.Black,
-                errorLeadingIconColor = Color.Black,
-                focusedTrailingIconColor = Color.Black,
-                unfocusedTrailingIconColor = Color.Black,
-                disabledTrailingIconColor = Color.Black,
-                errorTrailingIconColor = Color.Black,
-                focusedLabelColor = Color.Black,
-                unfocusedLabelColor = Color.Black,
-                disabledLabelColor = Color.Black,
-                errorLabelColor = Color.Black,
-                focusedPlaceholderColor = Color.Black,
-                unfocusedPlaceholderColor = Color.Black,
-                disabledPlaceholderColor = Color.Black,
-                errorPlaceholderColor = Color.Black,
-                focusedSupportingTextColor = Color.Black,
-                unfocusedSupportingTextColor = Color.White,
-                disabledSupportingTextColor = Color.Black,
-                errorSupportingTextColor = Color.Black,
-                focusedPrefixColor = Color.Black,
-                unfocusedPrefixColor = Color.White,
-                disabledPrefixColor = Color.Black,
-                errorPrefixColor = Color.Black,
-                focusedSuffixColor = Color.Black,
-                unfocusedSuffixColor = Color.White,
-                disabledSuffixColor = Color.Black,
-                errorSuffixColor = Color.Black
-            ),
             label = { Text("Ingrese el titulo de la tarea pendiente") },
             placeholder = { Text("Hacer...") },
             supportingText = { Text("Por favor, ingrese un titulo a su tarea.") },
@@ -140,50 +95,6 @@ fun SetDataComponent(modifier: Modifier, context:Context){
             maxLines = 2,
             minLines = 1,
             singleLine = false,
-            colors = TextFieldDefaults.colors(
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black,
-                disabledTextColor = Color.Black,
-                errorTextColor = Color.Black,
-                focusedContainerColor = Color.Black,
-                unfocusedContainerColor = Color.White,
-                disabledContainerColor = Color.Black,
-                errorContainerColor = Color.Red,
-                cursorColor = Color.Black,
-                errorCursorColor = Color.Black,
-                focusedIndicatorColor = Color.Black,
-                unfocusedIndicatorColor = Color.Black,
-                disabledIndicatorColor = Color.Black,
-                errorIndicatorColor = Color.Black,
-                focusedLeadingIconColor = Color.Black,
-                unfocusedLeadingIconColor = Color.Black,
-                disabledLeadingIconColor = Color.Black,
-                errorLeadingIconColor = Color.Black,
-                focusedTrailingIconColor = Color.Black,
-                unfocusedTrailingIconColor = Color.Black,
-                disabledTrailingIconColor = Color.Black,
-                errorTrailingIconColor = Color.Black,
-                focusedLabelColor = Color.Black,
-                unfocusedLabelColor = Color.Black,
-                disabledLabelColor = Color.Black,
-                errorLabelColor = Color.Black,
-                focusedPlaceholderColor = Color.Black,
-                unfocusedPlaceholderColor = Color.Black,
-                disabledPlaceholderColor = Color.Black,
-                errorPlaceholderColor = Color.Black,
-                focusedSupportingTextColor = Color.Black,
-                unfocusedSupportingTextColor = Color.White,
-                disabledSupportingTextColor = Color.Black,
-                errorSupportingTextColor = Color.Black,
-                focusedPrefixColor = Color.Black,
-                unfocusedPrefixColor = Color.White,
-                disabledPrefixColor = Color.Black,
-                errorPrefixColor = Color.Black,
-                focusedSuffixColor = Color.Black,
-                unfocusedSuffixColor = Color.White,
-                disabledSuffixColor = Color.Black,
-                errorSuffixColor = Color.Black
-            ),
             label = { Text("Ingrese la tarea pendiente") },
             placeholder = { Text("Falta hacer...") },
             supportingText = { Text("Por favor, ingrese una descripcion de su tarea.") },
@@ -205,10 +116,11 @@ fun SetDataComponent(modifier: Modifier, context:Context){
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             readOnly = false
         )
-        val toDoData: MutableState<MutableList<ToDoClass>> = remember { mutableStateOf(mutableListOf()) }
+        val toDoData: MutableState<MutableList<ToDoClass>> =
+            remember { mutableStateOf(mutableListOf()) }
         val viewModel = ViewModelToDo()
         Button(modifier = Modifier.padding(bottom = 5.dp), onClick = {
-            if (textFieldTitulo.value != "" && textFieldTarea.value != ""){
+            if (textFieldTitulo.value.isNotBlank() && textFieldTarea.value.isNotBlank()) {
                 val myToDoList = ToDoClass(textFieldTitulo.value, textFieldTarea.value)
 
                 viewModel.setData(myToDoList)
@@ -233,8 +145,8 @@ fun SetDataComponent(modifier: Modifier, context:Context){
                 CircularProgressIndicator()
         } else {
             LazyColumn {
-                itemsIndexed(toDoData.value){ index, item ->
-                    Column (
+                itemsIndexed(toDoData.value) { index, item ->
+                    Column(
                         modifier = Modifier
                             .padding(top = 5.dp, start = 10.dp, end = 10.dp, bottom = 5.dp)
                             .background(
@@ -243,11 +155,18 @@ fun SetDataComponent(modifier: Modifier, context:Context){
                             )
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
-                    ){
-                        Text(modifier = Modifier.padding(10.dp),text = index.toString() + ". " + item.GetTopic())
-                        Text(modifier = Modifier.padding(10.dp),text = item.GetToDo())
-                        
-                        UpdateToDoComponent(context = context)
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(10.dp),
+                            text = index.toString() + ". " + item.GetTopic()
+                        )
+                        Text(modifier = Modifier.padding(10.dp), text = item.GetToDo())
+
+                        UpdateToDoComponent(
+                            modifier = Modifier.fillMaxWidth(),
+                            context = context,
+                            index
+                        )
                     }
                 }
             }
@@ -257,6 +176,6 @@ fun SetDataComponent(modifier: Modifier, context:Context){
 
 @Preview
 @Composable
-private fun SetDataComponentPreview(){
+private fun SetDataComponentPreview() {
     SetDataComponent(modifier = Modifier, LocalContext.current)
 }
