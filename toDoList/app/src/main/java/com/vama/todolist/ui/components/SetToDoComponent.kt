@@ -19,7 +19,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -162,11 +161,7 @@ fun SetDataComponent(modifier: Modifier, context: Context) {
                         )
                         Text(modifier = Modifier.padding(10.dp), text = item.GetToDo())
 
-                        UpdateToDoComponent(
-                            modifier = Modifier.fillMaxWidth(),
-                            context = context,
-                            index
-                        )
+                        BtnUpdateToDoComponent(context, index)
                     }
                 }
             }

@@ -14,11 +14,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.vama.todolist.Activitys.UpdateActivity
 
 @Composable
-fun UpdateToDoComponent(context:Context){
+fun BtnUpdateToDoComponent(context:Context,index:Int){
     Column(modifier = Modifier.fillMaxWidth()) {
         Button(onClick = {
             val intent = Intent(context, UpdateActivity::class.java)
-            intent.putExtra("indexItem", 0)
+            intent.putExtra("indexItem", index)
             context.startActivity(intent)
             (context as Activity)
         }) {
@@ -30,5 +30,5 @@ fun UpdateToDoComponent(context:Context){
 @Preview
 @Composable
 private fun GetDataComponentPreview(){
-    UpdateToDoComponent(LocalContext.current)
+   BtnUpdateToDoComponent(LocalContext.current,0)
 }

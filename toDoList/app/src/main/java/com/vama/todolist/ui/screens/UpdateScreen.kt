@@ -11,7 +11,7 @@ import com.vama.todolist.ui.components.UpdateToDoComponent
 @Composable
 fun UpdateScreen(){
     Column {
-        UpdateToDoComponent(modifier = Modifier.fillMaxWidth(), context = LocalContext.current, index = 2)
+        UpdateToDoComponent(modifier = Modifier.fillMaxWidth(), LocalContext.current)
     }
 }
 
